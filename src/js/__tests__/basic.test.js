@@ -1,7 +1,18 @@
-import sum from '../basic';
+import ArrayBufferConverter from '../basic';
 
-test('should sum', () => {
-  const result = sum([1, 2, 3]);
+test('Объект должен загружать содержимое в ArrayBuffer', () => {
+  const obj = new ArrayBufferConverter();
+  obj.load('{"data":{"user":{"id":1,"name":"Hitman","level":10}}}');
+  expect(obj.printBuffer[0].byteLength).toBe(106);
+});
 
-  expect(result).toBe(6);
+test('Объект должен читать содержимое из ArrayBuffer', () => {
+  const obj = new ArrayBufferConverter();
+  obj.load('{"data":{"user":{"id":1,"name":"Hitman","level":10}}}');
+  expect(obj.toString()).toBe('{"data":{"user":{"id":1,"name":"Hitman","level":10}}}');
+});
+
+test('Объект не должен читать содержимое из ArrayBuffer', () => {
+  const obj = new ArrayBufferConverter();
+  expect(obj.toString()).toBe('ArrayBuffer пуст');
 });
