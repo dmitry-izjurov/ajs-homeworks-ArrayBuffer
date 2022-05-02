@@ -3,11 +3,10 @@ export default class ArrayBufferConverter {
     this.printBuffer = null;
   }
 
-  load(buffer) {
+  load(str) {
     function getBuffer(data) {
       // const data = '{"data":{"user":{"id":1,"name":"Hitman","level":10}}}';
       return ((input) => {
-        // eslint-disable-next-line no-shadow
         const buffer = new ArrayBuffer(data.length * 2);
         const bufferView = new Uint16Array(buffer);
         for (let i = 0; i < input.length; i += 1) {
@@ -17,18 +16,15 @@ export default class ArrayBufferConverter {
       })(data);
     }
 
-    this.printBuffer = getBuffer(buffer);
+    this.printBuffer = getBuffer(str);
     return this.printBuffer;
   }
 
   toString() {
     if (this.printBuffer) {
-      let result = '';
-      this.printBuffer[1].forEach((a) => {
-        const char = String.fromCharCode(a);
-        result += char;
-      });
-      return result;
+      const arr = [];
+      this.printBuffer[1].forEach((a) => arr.push(String.fromCharCode(a)));
+      return arr.reduce((a, b) => (a + b));
     }
     return 'ArrayBuffer пуст';
   }
